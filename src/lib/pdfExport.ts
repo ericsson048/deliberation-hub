@@ -411,14 +411,14 @@ export function generateDeliberationPDF(data: ExportData): void {
     doc.text(item, margin, legendY + 5 + idx * 4);
   });
 
-  // Date et signature
-  doc.setFontSize(9);
-  doc.text(
-    `Fait à Bujumbura, le ${new Date().toLocaleDateString("fr-FR")}`,
-    pageWidth - margin,
-    legendY + 20,
-    { align: "right" }
-  );
+  // // Date et signature
+  // doc.setFontSize(9);
+  // doc.text(
+  //   `Fait à Bujumbura, le ${new Date().toLocaleDateString("fr-FR")}`,
+  //   pageWidth - margin,
+  //   legendY + 20,
+  //   { align: "right" }
+  // );
 
   // ===== SAUVEGARDE =====
   const fileName = `Deliberation_${session.filiere}_${
