@@ -141,7 +141,7 @@ export function generateDeliberationPDF(data: ExportData): void {
   ues.forEach((ue) => {
     const ecueCount = (ue.ecue || []).length;
     headerRow1.push({
-      content: `${ue.code} - ${ue.nom} (${ue.credits_totaux} cr)`,
+      content: `${ue.code} - ${ue.nom}`,
       colSpan: ecueCount + 2, // ECUE + Moy + Déc
       styles: {
         halign: "center",
