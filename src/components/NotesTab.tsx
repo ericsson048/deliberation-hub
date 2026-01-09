@@ -149,7 +149,7 @@ export function NotesTab({ sessionId }: NotesTabProps) {
                       {ue.ecue?.map(ecue => (
                         <th key={ecue.id} className="text-center p-2 text-xs text-muted-foreground border-l min-w-[60px]">
                           <div className="truncate max-w-[80px]" title={ecue.nom}>
-                            {ecue.code}
+                            {ecue.nom}
                           </div>
                           <div className="text-[10px]">{ecue.credits}cr</div>
                         </th>

@@ -110,7 +110,7 @@ export function generateDeliberationPDF(data: ExportData): void {
   ues.forEach(ue => {
     (ue.ecue || []).forEach(ecue => {
       headerRow2.push({
-        content: `${ecue.code}\n(${ecue.credits}cr)`,
+        content: `${ecue.nom}\n(${ecue.credits}cr)`,
         styles: { halign: "center", fontSize: 7, fillColor: [245, 245, 245] },
       });
     });
