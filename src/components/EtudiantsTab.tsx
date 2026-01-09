@@ -34,6 +34,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus, Trash2, Loader2, UserPlus } from "lucide-react";
 import { toast } from "sonner";
+import { ImportEtudiantsDialog } from "./ImportEtudiantsDialog";
 
 interface EtudiantsTabProps {
   sessionId: string;
@@ -101,13 +102,15 @@ export function EtudiantsTab({ sessionId }: EtudiantsTabProps) {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>Liste des étudiants</CardTitle>
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="h-4 w-4 mr-2" />
-              Ajouter
-            </Button>
-          </DialogTrigger>
+        <div className="flex items-center gap-2">
+          <ImportEtudiantsDialog sessionId={sessionId} />
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus className="h-4 w-4 mr-2" />
+                Ajouter
+              </Button>
+            </DialogTrigger>
           <DialogContent>
             <form onSubmit={handleSubmit}>
               <DialogHeader>
@@ -178,6 +181,7 @@ export function EtudiantsTab({ sessionId }: EtudiantsTabProps) {
             </form>
           </DialogContent>
         </Dialog>
+        </div>
       </CardHeader>
       <CardContent>
         {etudiants && etudiants.length > 0 ? (
