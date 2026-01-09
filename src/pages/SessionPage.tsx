@@ -2,12 +2,16 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSession } from "@/hooks/useSession";
 import { useEtudiants } from "@/hooks/useEtudiants";
 import { useUnitesEnseignement } from "@/hooks/useUE";
+import { useAllNotes } from "@/hooks/useNotes";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft, Users, BookOpen, FileSpreadsheet, FileDown, Loader2 } from "lucide-react";
 import { EtudiantsTab } from "@/components/EtudiantsTab";
 import { UETab } from "@/components/UETab";
 import { NotesTab } from "@/components/NotesTab";
+import { generateDeliberationPDF } from "@/lib/pdfExport";
+import { toast } from "sonner";
+import { useMemo } from "react";
 
 export default function SessionPage() {
   const { id } = useParams<{ id: string }>();
@@ -15,6 +19,28 @@ export default function SessionPage() {
   const { data: session, isLoading: sessionLoading } = useSession(id);
   const { data: etudiants } = useEtudiants(id);
   const { data: ues } = useUnitesEnseignement(id);
+  const etudiantIds = useMemo(() => etudiants?.map(e => e.id) || [], [etudiants]);
+  const { data: notes } = useAllNotes(id, etudiantIds);
+
+  const handleExportPDF = () => {
+    if (!session || !etudiants?.length || !ues?.length) {
+      toast.error("Veuillez d'abord ajouter des étudiants et des matières");
+      return;
+    }
+
+    try {
+      generateDeliberationPDF({
+        session,
+        etudiants,
+        ues: ues.map(ue => ({ ...ue, ecue: ue.ecue || [] })),
+        notes: notes || [],
+      });
+      toast.success("PDF exporté avec succès");
+    } catch (error) {
+      console.error("Erreur export PDF:", error);
+      toast.error("Erreur lors de l'export PDF");
+    }
+  };
 
   if (sessionLoading) {
     return (
@@ -52,7 +78,7 @@ export default function SessionPage() {
                 </p>
               </div>
             </div>
-            <Button variant="outline">
+            <Button variant="outline" onClick={handleExportPDF}>
               <FileDown className="h-4 w-4 mr-2" />
               Exporter PDF
             </Button>
