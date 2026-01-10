@@ -200,6 +200,15 @@ export function generateDeliberationPDF(data: ExportData): void {
       fillColor: [220, 240, 220],
     },
   });
+   headerRow2.push({
+    content: "Moy en %",
+    styles: {
+      halign: "center",
+      fontStyle: "bold",
+      fontSize: 8,
+      fillColor: [220, 240, 220],
+    },
+  });
   headerRow2.push({
     content: "Crédits",
     styles: {
@@ -323,6 +332,25 @@ export function generateDeliberationPDF(data: ExportData): void {
             : [255, 220, 220],
       },
     });
+
+    
+    // Moyenne en pourcentage
+    const moyennePourcentage =
+      resultatSemestre.moyenne !== null
+        ? (resultatSemestre.moyenne / 20) * 100
+        : "-";
+    row.push({
+      content: moyennePourcentage.toFixed(2),
+      styles: {
+        halign: "center",
+        fontStyle: "bold",
+        fillColor:
+          typeof moyennePourcentage === "number" && moyennePourcentage >= 50
+            ? [200, 240, 200]
+            : [255, 220, 220],
+      },
+    });
+
 
     // Crédits
     row.push({
